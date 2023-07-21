@@ -15,6 +15,4 @@ describe('AuthService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-  it.todo('should create a new user on signup.');
-  it.todo('should return a 404 if user is not found on signip.');
 });
