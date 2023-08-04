@@ -8,21 +8,13 @@ export class AuthController {
 
   @Post('signup')
   async signup(@Body() dto: SignupAuthDto) {
-    try {
-      const result = await this.authService.signup(dto);
-      return result;
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    const result = await this.authService.signup(dto);
+    return result;
   }
 
   @Post('signin')
   async signin(@Body() dto: SigninAuthDto) {
-    try {
-      const result = await this.authService.signin(dto);
-      return result;
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    const result = await this.authService.signin(dto);
+    return result;
   }
 }
