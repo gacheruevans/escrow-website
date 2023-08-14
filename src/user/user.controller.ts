@@ -6,10 +6,9 @@ import {
   UseGuards,
   Patch,
   Delete,
-  ForbiddenException,
   NotFoundException,
 } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { EditUserDto } from './dto';
 import { JwtGuard } from 'src/auth/guard';
 import { UserService } from './user.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
@@ -30,12 +29,9 @@ export class UserController {
   }
 
   @Patch(':id')
-  async editUser(@Param('id') id: string, @Body() updateUser: User) {
+  async editUser(@Param('id') id: string, @Body() dto: EditUserDto) {
     try {
-      await this.userService.updateUserDetails({
-        id,
-        updateUser,
-      });
+      await this.userService.updateUserDetails(id, dto);
 
       return { message: 'Edited User Details.' };
     } catch (error) {
