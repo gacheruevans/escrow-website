@@ -18,6 +18,16 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @Get('/')
+  async getUsers() {
+    try {
+      const user = await this.userService.users();
+      return user;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
   @Get(':id')
   async getUser(@Param('id') id: string) {
     try {

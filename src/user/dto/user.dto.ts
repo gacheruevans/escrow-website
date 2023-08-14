@@ -1,5 +1,4 @@
 import { IsString, IsOptional } from 'class-validator';
-
 class EditUserDto {
   @IsString()
   @IsOptional()
