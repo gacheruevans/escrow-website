@@ -4,25 +4,22 @@ import { motion } from 'framer-motion';
 
 import styles from '../styles/Navbar.module.scss';
 
-const NavbarItem = ({title, classProps}) => {
-    return (
-        <li className={`mx-4 cursor-pointer ${classProps}`}>{title}</li>
-    );
-};
 const Navbar = () => {
     const [toggle, setToggle] = useState(false);
     return (
-      <div className={styles.app__navbar}>
+      <nav className={styles.app__navbar}>
         <div className={styles.app__navbar_logo}>
+          
           <img src="/assets/grapesco.svg"  alt="logo" /><h2>GrapeSwap</h2> 
         </div>
         <ul className={styles.app__navbar_links}>
-          {['Market', 'Exchange', 'Community', 'Wallets','Jobs'].map((item, index)=>(
-            <li key={index} className={styles.app__flex} >
-                 <NavbarItem key={index} title={item} classProps={styles.p_text} />
+          {['Market', 'Exchange', 'Community', 'Wallets','Jobs'].map((item)=>(
+            <li className={styles.app__flex} key={`link-${item}`}>
+              <a className={styles.p_text} href={`#${item}`}>{item}</a>
             </li>
           ))}
-          <li className="bg-[#2952e3] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[2546bd]">Login</li>
+          <li className='inline-flex justify-center text-sm font-semibold py-2.5 px-4text-gray -my-2.5 ml-8'>Login</li>
+          <li className='inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8'>Sign Up</li>
         </ul>
   
         <div className={styles.app__navbar_menu}>
@@ -35,19 +32,19 @@ const Navbar = () => {
               >
                 <HiX onClick={() => setToggle(false)} />
                 <ul>
-                  {['Market', 'Exchange', 'Community', 'Wallets','Jobs'].map((item, index)=>(
-                    <li key={index}>
+                  {['Market', 'Exchange', 'Community', 'Wallets','Jobs'].map((item)=>(
+                    <li key={item}>
                       <a href={`#${item}`} onClick={() => setToggle(false)}>
-                        <NavbarItem key={index} title={item} classProps={styles.p_text} />
+                        {item}
                       </a>
                     </li>
                   ))}
-                  <li className="bg-[#2952e3] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[2546bd]">Login</li>
+                  <li className='text-3xl font-bold underline'>Login</li>
                 </ul>
               </motion.div>
             )}
         </div>
-      </div>
+      </nav>
     );
   };
 

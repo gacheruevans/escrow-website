@@ -10,7 +10,7 @@ const Footer = () => {
         >
           All rights reserved by{' '}
           <img src="/assets/grapes.svg" alt="GrapeSwap" className={styles.logo} />
-          GrapeSwap @2023
+          GrapeSwap &#169;2023
         </a>
         </div>
     );

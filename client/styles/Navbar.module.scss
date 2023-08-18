@@ -5,18 +5,19 @@
 }
 
 .app__navbar{
-    width: 80%;
+    width: 100%;
+    top: 0;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    padding: 1rem 2rem 2rem;
+    padding: 1rem 2rem;
     background: rgba(255,255,255,0.25);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     border: 1px solid rgba(255,255,255,0.18);
-    position: relative;
+    position: fixed;
     z-index: 2;
 
     .p_text {
@@ -32,14 +33,13 @@
 }
 
 .app__navbar_logo{
-    flex: 1;
     display: flex;
     justify-content: flex-start;
     align-items: center;
 
     img {
-        width: 64px;
-        height: 64px;
+        width: 48px;
+        height: 48px;
 
         @media screen and (min-width: 2000px) {
             width: 180px;
@@ -76,7 +76,7 @@
             text-decoration: none;
             flex-direction: column;
 
-            text-transform: uppercase;
+            text-transform:capitalize;
             font-weight: 500;
 
             transition: all 0.3s ease-in-out;
