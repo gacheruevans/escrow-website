@@ -23,15 +23,17 @@ const createEthereumContract = async () => {
 
 export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState();
-  const [formData, setFormData] = useState({ addressTo: '', amount: '', keyword: '', message: '' });
+  const [formData, setFormData] = useState({
+    addressTo: '',
+    amount: '',
+    message: '',
+    keyword: '',
+  });
   const [isLoading, setIsLoading] = useState(false);
-  const [transactionCount, setTransactionCount] = useState(localStorage.getItem('transactionCount'));
-
-  // if (typeof window !== 'undefined') {
-    
-  // }else{
-  //   const [transactionCount, setTransactionCount] = useState();
-  // }
+  const [transactionCount, setTransactionCount] = useState('transactionCount');
+  useEffect(function getTransactionCount() {
+    localStorage.setItem('transactionCount', transactionCount);
+  });
 
   const handleChange = (e, name) => {
     setFormData((prevState) => ({ ...prevState, [name]: e.target.value }));
@@ -43,11 +45,11 @@ export const TransactionProvider = ({ children }) => {
 
       const accounts = await ethereum.request({ method: 'eth_accounts' });
 
-      if(accounts.length) {
+      if (accounts.length) {
         setCurrentAccount(accounts[0]);
 
         // getAllTransactions();
-      }else {
+      } else {
         console.log('No accounts found');
       }
     } catch (error) {
@@ -75,45 +77,60 @@ export const TransactionProvider = ({ children }) => {
       if (!ethereum) return alert('Please install MetaMask');
 
       // Get all data from the form
-      const { addressTo, amount, keyword, message } = formData;
+      const { addressTo, amount, message, keyword } = formData;
       const transactionsContract = createEthereumContract();
       const parsedAmount = ethers.parseEther(amount);
 
       await ethereum.request({
         method: 'eth_sendTransaction',
-        params: [{
-          from: currentAccount,
-          to: addressTo,
-          gas: '0x5208', // 21000 Gwei
-          value: parsedAmount._hex,
-        }]
+        params: [
+          {
+            from: currentAccount,
+            to: addressTo,
+            gas: '0x5208', // 21000 Gwei
+            value: parsedAmount.toString(16),
+          },
+        ],
       });
 
-      const transactionHash = await transactionsContract.addToBlockchain(addressTo, parsedAmount, keyword, message);
+      const transactionsHash = await transactionsContract.addToBlockchain(
+        addressTo,
+        parsedAmount,
+        message,
+        keyword,
+      );
 
       setIsLoading(true);
-      console.log(`Loading - ${transactionHash.hash}`);
-      await transactionHash.wait();
+      console.log(`Loading - ${transactionsHash.hash}`);
+      await transactionsHash.wait();
 
       setIsLoading(false);
-      console.log(`Success - ${transactionHash.hash}`);
+      console.log(`Success - ${transactionsHash.hash}`);
 
       const transactionCount = await transactionsContract.getTransactionCount();
 
       setTransactionCount(transactionCount.toNumber());
       window.location.reload();
     } catch (error) {
-      console.error(error);
+      console.log(error);
       throw new Error('No Ethereum Object!');
     }
-  }
+  };
 
   useEffect(() => {
     checkIfWalletIsConnected();
   }, []);
 
   return (
-    <TransactionContext.Provider value={{ connectWallet, currentAccount, formData, handleChange, sendTransaction }}>
+    <TransactionContext.Provider
+      value={{
+        connectWallet,
+        currentAccount,
+        formData,
+        handleChange,
+        sendTransaction,
+      }}
+    >
       {children}
     </TransactionContext.Provider>
   );
