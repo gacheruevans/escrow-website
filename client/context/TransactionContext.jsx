@@ -17,7 +17,7 @@ const createEthereumContract = async () => {
     contractABI,
     signer,
   );
-  console.log(transactionsContract);
+
   return transactionsContract;
 };
 
@@ -76,8 +76,6 @@ export const TransactionProvider = ({ children }) => {
     try {
       if (!ethereum) return alert('Please install MetaMask');
 
-      const iface = new ethers.Interface(contractABI);
-      console.log(iface);
       // Get all data from the form
       const { addressTo, amount, message, keyword } = formData;
       const transactionsContract = createEthereumContract();
