@@ -31,7 +31,6 @@ contract Transactions {
         string memory message,
         string memory keyword
     ) public {
-        // Add a new block to the blockchain
         transactionCount += 1;
         transactions.push(
             TransferStruct(
@@ -54,7 +53,11 @@ contract Transactions {
         );
     }
 
-    function getAllTrasactions() public view returns (TransferStruct[] memory) {
+    function getAllTransactions()
+        public
+        view
+        returns (TransferStruct[] memory)
+    {
         return transactions;
     }
 
