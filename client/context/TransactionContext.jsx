@@ -9,9 +9,9 @@ if (typeof window !== 'undefined') {
   const { ethereum } = window;
 }
 
-const createEthereumContract = async () => {
-  const provider = new ethers.BrowserProvider(ethereum);
-  const signer = await provider.getSigner();
+const createEthereumContract = () => {
+  const provider = new ethers.providers.Web3Provider(ethereum);
+  const signer = provider.getSigner();
   const transactionsContract = new ethers.Contract(
     contractAddress,
     contractABI,
@@ -79,8 +79,8 @@ export const TransactionProvider = ({ children }) => {
       // Get all data from the form
       const { addressTo, amount, message, keyword } = formData;
       const transactionsContract = createEthereumContract();
-      const parsedAmount = ethers.parseEther(amount);
-
+      const parsedAmount = ethers.utils.parseEther(amount);
+      console.log('Parsed Amount ->>>', parsedAmount);
       await ethereum.request({
         method: 'eth_sendTransaction',
         params: [
@@ -88,7 +88,7 @@ export const TransactionProvider = ({ children }) => {
             from: currentAccount,
             to: addressTo,
             gas: '0x5208', // 21000 Gwei
-            value: parsedAmount.toString(16),
+            value: parsedAmount._hex,
           },
         ],
       });
