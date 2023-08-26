@@ -30,6 +30,7 @@ const Welcome = () => {
     formData,
     handleChange,
     sendTransaction,
+    isLoading,
   } = useContext(TransactionContext);
 
   const handleSubmit = (e) => {
@@ -82,7 +83,7 @@ const Welcome = () => {
               </div>
               <div>
                 <p className="text-white font-light text-sm">
-                  {shortenAddress(currentAccount)}
+                  {currentAccount && shortenAddress(currentAccount)}
                 </p>
                 <p className="text-white font-semibold text-lg mt-1">
                   Ethereum
@@ -120,7 +121,7 @@ const Welcome = () => {
               value={undefined}
             />
             <div className="h-[1px] w-full bg-gray-400 my-2" />
-            {false ? (
+            {isLoading ? (
               <Loader />
             ) : (
               <button
